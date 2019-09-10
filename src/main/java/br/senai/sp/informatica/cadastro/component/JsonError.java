@@ -14,7 +14,7 @@ public class JsonError {
 										erro.getDefaultMessage() + "\"")
 					// Agrupa todos dos erros separados por virgula
 					.collect(Collectors.joining(",\n"))
-				+ "\n").toString();
+				+ "}\n").toString();
 	}
 
 }

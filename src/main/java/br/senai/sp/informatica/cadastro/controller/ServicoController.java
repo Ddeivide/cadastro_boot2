@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.senai.sp.informatica.cadastro.component.JsonError;
 import br.senai.sp.informatica.cadastro.model.Servico;
 import br.senai.sp.informatica.cadastro.service.ServicoService;
 
@@ -26,7 +28,9 @@ public class ServicoController {
 	@PostMapping("/salvaServico")
 	public ResponseEntity<Object> salvarServico(@RequestBody @Valid Servico servico, BindingResult result){
 		if(result.hasErrors()) {
-			return ResponseEntity.unprocessableEntity().build();
+			return ResponseEntity.unprocessableEntity()
+					.contentType(MediaType.APPLICATION_JSON_UTF8)
+					.body(JsonError.build(result));
 		} else {
 		servicoService.salvar(servico);
 		return ResponseEntity.ok().build();

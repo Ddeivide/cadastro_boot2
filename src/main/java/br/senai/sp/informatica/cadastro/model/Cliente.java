@@ -33,7 +33,7 @@ public class Cliente {
 	private String nome;
 	@Logradouro(max=150, message="O endereço é inválido")
 	private String endereco;
-	@Pattern(regexp="(9[0-9]{4}|[1-9]-[0-9]{3})-[0-9]{4}", message="O nº de telefone é inválido")
+	@Pattern(regexp="(9[0-9]{4}|[1-9][0-9]{3})-[0-9]{4}", message="O nº de telefone é inválido")
 	private String telefone;
 	@Email(message="O E-mail é invalido")
 	private String email;
