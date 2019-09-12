@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	@Bean(name="AuthenticationManager")
-	protected AuthenticationManager authenticationManager() throws Exception{
+	public AuthenticationManager authenticationManagerBean() throws Exception{
 		
 		return super.authenticationManagerBean();
 	}

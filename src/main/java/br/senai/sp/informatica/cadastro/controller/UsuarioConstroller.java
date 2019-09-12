@@ -7,6 +7,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -28,7 +30,7 @@ public class UsuarioConstroller {
 	@Autowired
 	private UsuarioService usuarioService;
 
-
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/salvaUsuario")
 	public ResponseEntity<Object> cadastra(@RequestBody @Valid Usuario usuario, BindingResult result){
 		if(result.hasErrors()) {
@@ -40,12 +42,14 @@ public class UsuarioConstroller {
 		return ResponseEntity.ok().build();
 		}
 	}
-	
+
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("/listaUsuario")
 	public ResponseEntity<List<Usuario>> listaUsuario(){
 		return ResponseEntity.ok(usuarioService.getUsuario());
 	}
-	
+
+	@Secured("ROLE_ADMIN")
 	@GetMapping("/editaUsuario/{nome}")
 	public ResponseEntity<Object> editarUsuario(@PathVariable ("nome") String nome) {
 		Usuario usuario = usuarioService.getUsuario(nome);
@@ -57,7 +61,8 @@ public class UsuarioConstroller {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
+
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("/removeUsuario/{Nome}")
 	public ResponseEntity<Object> removeNome(@PathVariable("Nome") String Nome ) {
 		if(usuarioService.removeUsuario(Nome))	{
@@ -67,6 +72,10 @@ public class UsuarioConstroller {
 		}
 	}
 	
-	
 
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	@RequestMapping("/leAutorizacoes/{nome}")
+	public ResponseEntity<GrantedAuthority> getAutorizacoes(@PathVariable() String nome) {
+		return ResponseEntity.ok(usuarioService.getAutorizacoes(nome));
+	}
 }
