@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ public class ServicoController {
 	@Autowired
 	private ServicoService servicoService;
 	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@PostMapping("/salvaServico")
 	public ResponseEntity<Object> salvarServico(@RequestBody @Valid Servico servico, BindingResult result){
 		if(result.hasErrors()) {
@@ -42,6 +44,7 @@ public class ServicoController {
 		return ResponseEntity.ok(servicoService.getServicos());
 	}
 
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@RequestMapping("/removeServico/{idServico}")
 	public ResponseEntity<Object> removeServico(@PathVariable("idServico") int idServico ) {
 		if(servicoService.removeServico(idServico)) {
